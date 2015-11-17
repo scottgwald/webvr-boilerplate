@@ -138,6 +138,20 @@ function onTextureLoaded(texture) {
   scene.add(skybox);
 }
 
+video = document.createElement( 'video' );
+video.loop = true;
+video.src = 'content_images/CroppedMary.webm';
+video.play();
+
+texture = new THREE.VideoTexture( video );
+texture.minFilter = THREE.LinearFilter;
+texture.format = THREE.RGBFormat;
+texture.generateMipmaps = false;
+
+var material = new THREE.MeshBasicMaterial({
+  map: texture,
+  side: THREE.FrontSide
+});
 
 // Create a VR manager helper to enter and exit VR mode.
 var params = {
@@ -148,7 +162,6 @@ var manager = new WebVRManager(renderer, effect, params);
 
 // Create 3D objects.
 var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-var material = new THREE.MeshNormalMaterial();
 var cube = new THREE.Mesh(geometry, material);
 
 // Position cube mesh
@@ -185,6 +198,12 @@ function onKey(event) {
     controls.resetSensor();
   }
 }
+
+document.body.addEventListener( 'click', function () {
+  console.log("Body clicked!");
+  video.play();
+
+} );
 
 window.addEventListener('keydown', onKey, true);
 
